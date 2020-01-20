@@ -27,14 +27,17 @@ describe 'タスク管理機能', type: :system do
       click_button 'ログインする'
    end
 
+   #同じ内容のit構文を共通化できるShared_Exampleメソッド
+   shared_examples_for 'ユーザーAが作成したタスクが表示される' do
+      it { expect(page).to have_content '最初のタスク' }
+   end
+
    describe '一覧表示機能' do
       context 'ユーザーAがログインしている時' do
          let(:login_user) { user_a }
 
-         it 'ユーザーAが作成したタスクが表示される' do
-            #page(画面)に期待するよ。あるはずだよね、「最初のタスク」という内容が
-            expect(page).to have_content '最初のタスク'
-         end
+         #上記で宣言したShared_Exapleを呼び出す
+         it_behaves_like 'ユーザーAが作成したタスクが表示される'
       end
 
       context 'ユーザーBがログインしている時' do
@@ -55,8 +58,36 @@ describe 'タスク管理機能', type: :system do
             visit task_path(task_a)
          end
 
-         it 'ユーザーAが作成したタスクが表示される' do
-            expect(page).to have_content '最初のタスク'
+         it_behaves_like 'ユーザーAが作成したタスクが表示される'
+      end
+   end
+
+   describe '新規作成昨日' do
+      let(:login_user) { user_a }
+
+      before do
+         visit new_task_path
+         fill_in '名称', with: task_name
+         click_button '登録する'
+      end
+
+      context '新規作成画面で名称を入力したとき' do
+         let(:task_name) { '新規作成のテストを書く' }
+
+         it '正常に登録される' do
+            #CSSセレクタを指定して’新規作成のテストを書く’タスクが登録されたかを検証する
+            expect(page).to have_selector '.alert-success', text: '新規作成のテストを書く'
+         end
+      end
+
+      context '新規作成画面で名称を入力しなかったとき' do
+         let(:task_name) { '' }
+
+         it 'エラーをなる' do
+            #id(error_explanation)を指定してその範囲の中で'名称を入力してください'の文言が含まれているかを検証する
+            within '#error_explanation' do
+               expect(page).to have_content '名称を入力してください'
+            end
          end
       end
    end
