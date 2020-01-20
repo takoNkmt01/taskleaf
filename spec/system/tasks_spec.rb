@@ -62,8 +62,10 @@ describe 'タスク管理機能', type: :system do
       end
    end
 
-   describe '新規作成昨日' do
+   describe '新規作成機能' do
       let(:login_user) { user_a }
+      #下記のletでタスクの名称のデフォルト値を設定する
+      let(:task_name) { '新規作成のテストを書く' }
 
       before do
          visit new_task_path
@@ -72,7 +74,7 @@ describe 'タスク管理機能', type: :system do
       end
 
       context '新規作成画面で名称を入力したとき' do
-         let(:task_name) { '新規作成のテストを書く' }
+         #let(:task_name) { '新規作成のテストを書く' }
 
          it '正常に登録される' do
             #CSSセレクタを指定して’新規作成のテストを書く’タスクが登録されたかを検証する
@@ -81,6 +83,7 @@ describe 'タスク管理機能', type: :system do
       end
 
       context '新規作成画面で名称を入力しなかったとき' do
+         #新規作成機能の初期で定義したデフォルトのletを上書きすることができる
          let(:task_name) { '' }
 
          it 'エラーをなる' do
