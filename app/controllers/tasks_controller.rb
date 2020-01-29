@@ -30,11 +30,23 @@ class TasksController < ApplicationController
   def create
     @task = current_user.tasks.new(task_params)
 
+    #確認画面.戻るボタンのname属性：’back’（params[:back]）が得られた場合に新規登録画面に値を保持したまま戻す
+    if params[:back].present?
+      render :new
+      return
+    end
+
     if @task.save
       redirect_to @task, notice: "タスク「#{@task.name}」を登録しました。"
     else
       render :new
     end
+  end
+
+  #確認画面遷移アクション
+  def confirm_new
+    @task = current_user.tasks.new(task_params)
+    render :new unless @task.valid?
   end
 
   private
