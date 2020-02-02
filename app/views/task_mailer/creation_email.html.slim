@@ -6,4 +6,4 @@ ul
       = @task.name
    li
       | 詳しい説明：
-      = @task.description
+      = simple_format(@task.description)
