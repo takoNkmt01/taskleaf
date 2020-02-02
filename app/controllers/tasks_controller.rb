@@ -1,6 +1,11 @@
 class TasksController < ApplicationController
   def index
-    @tasks = current_user.tasks.recent
+    #@tasks = current_user.tasks.recent
+    
+    #(params[:q])に検索パラメーターが入り、Tasksテーブルを検索する@qオブジェクトを生成
+    @q = current_user.tasks.ransack(params[:q])
+    #検索結果を表示するtasksオブジェクトを生成
+    @tasks = @q.result(distinct: true).recent
   end
 
   def show
