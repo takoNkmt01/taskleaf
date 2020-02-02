@@ -7,9 +7,9 @@ class TaskMailer < ApplicationMailer
       @task = task
       #メール作成、送信を行うmailメソッド。from、to、subjectなどを指定する。
       mail(
-         subject: 'タスク作成完了メール'
-         to: 'user@example.com'
-         from: 'taskleaf@example.com'
+         subject: 'タスク作成完了メール',
+         to: 'user@example.com',
+         from: 'taskleaf@example.com',
       )
    end
 end
