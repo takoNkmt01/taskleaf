@@ -7,6 +7,16 @@ class Task < ApplicationRecord
 
    scope :recent, -> { order(created_at: :desc) }
 
+   #ransackable_attributesで検索対象することを許可するcolumnを指定する。
+   def self.ransackable_attributes(auth_object = nill)
+      %w[name created_at]
+   end
+
+   #ransackable_associationsで検索条件に含める関連を指定する。空の配列を返すように指定すれば意図しない関連を排除できる。
+   def self.ransackable_associations(auth_object = nill)
+      []
+   end
+
    private
 
    def validate_name_not_including_comma
