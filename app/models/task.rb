@@ -1,4 +1,7 @@
 class Task < ApplicationRecord
+   #1つのタスクに1つの画像を紐付けることを意味する。そしてTaskモデルからはそれをimageと呼ぶことを指定
+   has_one_attached :image
+   
    validates :name, presence: true
    validates :name, length: { maximum: 30 }
    validate :validate_name_not_including_comma
