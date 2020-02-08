@@ -6,6 +6,15 @@ class TasksController < ApplicationController
     @q = current_user.tasks.ransack(params[:q])
     #検索結果を表示するtasksオブジェクトを生成
     @tasks = @q.result(distinct: true)
+
+    #csv
+    respond_to do |format|
+      #format.htmlはHTMLとしてアクセスされた場合に実行される
+      #特に処理を行わない。今まで通りデフォルトの動作としてindex.html.slimによって画面が表示される
+      format.html
+      #send_dataメソッドでレスポンスデータを怒り出す。そしてダウンロードできるようにする
+      format.csv { send_data @tasks.generate_csv, file_name: "tasks-#{Time.zone.now.strftime('%Y%m%d%S')}.csv" }
+    end
   end
 
   def show
@@ -48,6 +57,11 @@ class TasksController < ApplicationController
     else
       render :new
     end
+  end
+
+  def import
+    current_user.tasks.import(params[:file])
+    redirect_to tasks_url, notice: "タスクを追加しました"
   end
 
   #確認画面遷移アクション
