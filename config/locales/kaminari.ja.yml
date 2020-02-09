@@ -1,0 +1,22 @@
+ja:
+  views:
+    pagination:
+      # &laquo;は"<<"の意味（HTMLエンティティ）
+      first: "&laquo; 最初"
+      # &raquo; = ">>"（HTMLエンティティ）
+      last: "最後 &raquo;"
+      # &lsaquo; = "<"
+      previous: "&lsaquo; 前"
+      # &rsaquo; = ">"
+      next: "次 &rsaquo;"
+      # &hellip; = "..."
+      truncate: "&hellip;"
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "%{entry_name}がありません"
+          one: "1件の%{entry_name}が表示されています"
+          other: "%{count}件の%{entry_name}が表示されています"
+      more_pages:
+        display_entries: "全%{total}件中 %{first}&nbsp;-&nbsp;%{entry_name}が表示されています"
