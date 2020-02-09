@@ -4,8 +4,8 @@ class TasksController < ApplicationController
     
     #(params[:q])に検索パラメーターが入り、Tasksテーブルを検索するRansack::Searchオブジェクトを生成
     @q = current_user.tasks.ransack(params[:q])
-    #検索結果を表示するtasksオブジェクトを生成
-    @tasks = @q.result(distinct: true)
+    #検索結果を表示するtasksオブジェクトを生成。更にpageメソッドによりページネーションを実装
+    @tasks = @q.result(distinct: true).page(params[:page])
 
     #csv
     respond_to do |format|
